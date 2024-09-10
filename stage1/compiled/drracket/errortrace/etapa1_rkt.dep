@@ -1,0 +1,1 @@
+("8.12" tarm64osx ("c3433efd21cf4f306e280f2f988184cd62448b77" . "07eab8016f251f3d4c98d24a74332152e63dbb2e") #"/Users/dragosmac/_workspace_/pp/teme/etapa1/suffix-tree.rkt" (collects #"drracket" #"private" #"drracket-errortrace-key.rkt") (collects #"racket" #"main.rkt") (collects #"racket" #"runtime-config.rkt"))

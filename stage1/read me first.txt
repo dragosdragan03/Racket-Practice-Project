@@ -1,0 +1,7 @@
+- Întâi veți rezolva sarcinile din fișierul suffix-tree.rkt, apoi pe cele din fișierul etapa1.rkt.
+
+- Pentru testare, rulați codul din checker.rkt. Nu este permis să modificați acest fișier.
+
+- Fișierul pretty-print.rkt vă permite să vizualizați arbori de sufixe de dimensiune mică, odată ce ați implementat funcțiile din suffix-tree.rkt. Puteți ignora acest fișier, dacă doriți. El vă este furnizat doar pentru a vă ajuta să înțelegeți structura arborilor de sufixe (și eventual ca unealtă de debug).
+
+- Folosiți let* pentru un cod mai lizibil și mai eficient (găsiți explicații despre let* în fișierul let-star.txt).

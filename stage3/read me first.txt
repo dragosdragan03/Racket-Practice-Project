@@ -1,0 +1,5 @@
+- Observați liniile de "require" de la începutul fișierului etapa3.rkt și aduceți rezolvările etapelor 1 și 2 în același folder în care rezolvați etapa 3, pentru a beneficia de funcțiile implementate anterior.
+
+- Folosiți let-uri pentru a evita aplicarea repetată a aceleiași funcții pe aceleași argumente. Aceasta nu este o restricție asupra unei funcții anume, ci o restricție generală asupra rezolvării. Dacă în timpul prezentării asistentul observă abateri repetate de la această regulă, se va aplica o depunctare de 20p.
+
+- Pe vmchecker veți încărca o arhivă .zip conținând fișierele suffix-tree.rkt, etapa1.rkt, etapa2.rkt și etapa3.rkt.

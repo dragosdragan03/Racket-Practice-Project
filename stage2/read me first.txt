@@ -1,0 +1,8 @@
+- Observați că la începutul fișierului etapa2.rkt apar liniile (require "suffix-tree.rkt") și (require "etapa1.rkt"), ceea ce înseamnă că va fi necesar să aduceți rezolvarea etapei 1 în același folder în care rezolvați etapa 2, pentru a beneficia de funcțiile implementate anterior.
+
+- Vă recomandăm în continuare să folosiți expresia let* și vă reamintim că puteți folosi fișierul pretty-print.rkt pentru vizualizarea arborilor pe care îi generați.
+
+- Pe vmchecker veți încărca o arhivă .zip conținând fișierele suffix-tree.rkt, etapa1.rkt și etapa2.rkt.
+
+- Observație: testele consideră că funcțiile care calculează liste pe baza altor liste conservă ordinea de apariție a elementelor în lista inițială.
+(ex: get-ch-words, ast-func, cst-func)

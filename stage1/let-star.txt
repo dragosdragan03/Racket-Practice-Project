@@ -1,0 +1,26 @@
+ Expresia let*
+-------------
+Pentru a evita apelarea repetată a aceleiași funcții pe aceleași argumente este util să folosiți expresia let* (deși ea se studiază oficial abia la laboratorul 4, vă rugăm să o studiați și folosiți de-a lungul întregii teme, atunci când vă este de folos). 
+
+Sintaxa let* este următoarea:
+
+(let* ((var1 e1) (var2 e2) (var3 e3) … (varm em)) 
+	expr)
+	
+iar această expresie s-ar putea citi în cuvinte astfel:
+
+Fie 
+- variabila var1 inițializată la valoarea expresiei e1
+- variabila var2 inițializată la valoarea expresiei e2 
+... 
+- variabila varm inițializată la valoarea expresiei em 
+în expresia expr.
+
+Legările variabilelor var1 .. varm se efectuează în ordine, iar fiecare variabilă "le vede" pe cele legate anterior. 
+În consecință, expresia e3 (care este folosită pentru inițializarea var3) poate referi variabilele var1 și var2. Reciproca nu este valabilă: var1 nu se poate defini în funcție de var2 sau var3.
+
+Exemplu (o expresie let* care se evaluează la lista '(1 2 2)):
+-----------------------------------------------------------------
+(let* ((a 1) (b (+ a 1))) ; în momentul definirii lui b, este vizibilă legarea lui a la 1
+  (list a b b))
+  

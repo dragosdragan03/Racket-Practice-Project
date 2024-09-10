@@ -1,0 +1,120 @@
+#lang racket
+(require "suffix-tree.rkt")
+
+(provide (all-defined-out))
+
+; TODO 2
+; Implementați o funcție care primește două cuvinte (liste
+; de caractere) w1 și w2 și calculează cel mai lung prefix
+; comun al acestora, împreună cu restul celor două cuvinte
+; după eliminarea prefixului comun.
+; ex:
+; (longest-common-prefix '(#\w #\h #\y) '(#\w #\h #\e #\n))
+; => '((#\w #\h) (#\y) (#\e #\n))
+; Folosiți recursivitate pe coadă.
+
+(define (prefix word1 word2 lista)
+  (if (or (null? word1) (null? word2))
+      lista
+      (if (equal? (car word1) (car word2)) ; verific daca au prefixele la fel
+          (prefix (cdr word1) (cdr word2) (append lista (list (car word1))))
+          lista)))
+
+(define (longest-common-prefix w1 w2)
+  (append (list (prefix w1 w2 '()))
+          (list (drop w1 (length (prefix w1 w2 '()))))
+          (list (drop w2 (length (prefix w1 w2 '()))))))
+
+; TODO 3
+; Implementați recursiv o funcție care primește o listă nevidă 
+; de cuvinte care încep cu același caracter și calculează cel 
+; mai lung prefix comun al acestora.
+; Opriți căutarea (parcurgerea) în momentul în care aveți garanția 
+; că prefixul comun curent este prefixul comun final.
+ 
+(define (longest-common-prefix-of-list words)
+  (if (= (length words) 1)
+      (car words)
+      (longest-common-prefix-of-list (append (list (prefix (car words) (car (cdr words)) '())) (cdr (cdr words))))))
+
+
+;; Următoarele două funcții sunt utile căutării unui șablon
+;; (pattern) într-un text cu ajutorul arborelui de sufixe.
+;; Ideea de căutare este următoarea:
+;; - dacă șablonul există în text, atunci există un sufix care
+;;   începe cu acest șablon, deci există o cale care începe din
+;;   rădăcina arborelui care se potrivește cu șablonul
+;; - vom căuta ramura a cărei etichetă începe cu prima literă
+;;   din șablon
+;; - dacă nu găsim această ramură, șablonul nu apare în text
+;; - dacă șablonul este conținut integral în eticheta ramurii,
+;;   atunci el apare în text
+;; - dacă șablonul se potrivește cu eticheta dar nu este conținut
+;;   în ea (de exemplu șablonul "nana$" se potrivește cu eticheta
+;;   "na"), atunci continuăm căutarea în subarborele ramurii
+;; - dacă șablonul nu se potrivește cu eticheta (de exemplu
+;;   șablonul "numai" nu se potrivește cu eticheta "na"), atunci
+;;   el nu apare în text (altfel, eticheta ar fi fost "n", nu
+;;   "na", pentru că eticheta este cel mai lung prefix comun al
+;;   sufixelor din subarborele său)
+
+; TODO 4
+; Implementați funcția match-pattern-with-label care primește un
+; arbore de sufixe și un șablon nevid și realizează un singur pas 
+; din procesul prezentat mai sus - identifică ramura arborelui a
+; cărei etichetă începe cu prima literă din șablon, apoi
+; determină cât de bine se potrivește șablonul cu eticheta,
+; întorcând ca rezultat:
+; - true, dacă șablonul este conținut integral în etichetă
+; - lista (etichetă, nou pattern, subarbore), dacă șablonul se
+;   potrivește cu eticheta dar nu este conținut în ea
+;   (ex: ("na", "na$", subarborele de sub eticheta "na")
+;   pentru șablonul inițial "nana$" și eticheta "na")
+; - lista (false, cel mai lung prefix comun între etichetă și
+;   șablon), dacă șablonul nu s-a potrivit cu eticheta sau nu
+;   s-a găsit din start o etichetă care începe cu litera dorită
+;   (ex1: (false, "n") pentru șablonul "numai" și eticheta "na")
+;   (ex2: (false, "") pentru etichetă negăsită)
+; Obs: deși exemplele folosesc stringuri pentru claritate, vă
+; reamintim că în realitate lucrăm cu liste de caractere.
+
+(define (caz1 branch pattern) ; verific sa vad daca patternul se regaseste complet in subarbore
+  (equal? (length (prefix (car branch) pattern '())) (length pattern)))
+
+(define (caz2 branch pattern) ; verfic sa vad daca exista o parte din pattern pe 2 ramuri
+  (define longest-prefix (longest-common-prefix (car branch) pattern)) ; retin cel mai lung prefix dintre pattern si prima lista din ramura
+  (if (null? (cdr branch))
+      (list #f (car (longest-common-prefix (car branch) pattern))) ; inseamna ca nu mai exista nimic din pattern intr o alta lista
+      #f)) ; inseama ca e fals cazul 2 deci este cazul 3
+
+(define (caz3 branch pattern)
+  (define longest-prefix (car (longest-common-prefix (car branch) pattern))) ; cel mai lung prefix
+  (define rest (drop pattern (length longest-prefix)))
+  (define rest-branch (cdr branch))
+  (let* ([x longest-prefix]
+         [y rest]
+         [z rest-branch])
+    (list x y z)))
+
+(define (match-pattern-with-label st pattern) 
+  (define branch (get-ch-branch st (car pattern))) ; extrag subarborele/ramura care contine prefixul
+  (if (not (list? branch)) ; verific sa vad daca a fost gasit un subarbore
+      (list #f '())
+      (if (caz1 branch pattern) 
+          #t ; inseamna ca este cazul 1
+          (if (caz2 branch pattern)
+              (list #f (car (longest-common-prefix (car branch) pattern)))
+              (caz3 branch pattern)))))
+ 
+; TODO 5 
+; Implementați funcția st-has-pattern? care primește un
+; arbore de sufixe și un șablon și întoarce true dacă șablonul
+; apare în arbore, respectiv false în caz contrar.
+
+(define (st-has-pattern? st pattern)
+  (let* ([result (match-pattern-with-label st pattern)])
+        (if (equal? result #t)
+            #t
+            (if (equal? (car result) #f)
+                #f
+                (st-has-pattern? (car (cddr result)) (car (cdr result)))))))

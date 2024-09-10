@@ -1,0 +1,14 @@
+- Vă recomandăm următorul workflow:
+  1. Rezolvați sarcinile din fișierul suffix-tree-stream.rkt.
+  2. Citiți explicațiile din fișierul etapa4.rkt.
+  3. Pentru fiecare funcție din etapa4.rkt care va trebui reimplementată:
+    - aduceți vechea implementare în fișier
+    - notați-vă fiecare listă utilizată de funcție care ar trebui să devină flux în noua implementare
+    - în paralel, completați fișierul collection.rkt cu funcțiile de tip collection-* de care descoperiți că aveți nevoie (omoloagele funcțiilor pe liste folosite în etapele anterioare)
+    - modificați implementarea anterioară asigurându-vă că prelucrați listele cu operatori pe liste și fluxurile cu operatori pe fluxuri
+	
+- Observație: Să lucrați pe fluxuri implică să folosiți operatori pe fluxuri. Este interzis să convertiți fluxurile în liste și să rezolvați sarcinile lucrând de fapt pe liste. 
+
+- Atenție: checker-ul local nu testează în niciun fel eficiența soluției, dar pe vmchecker va exista un timp în care trebuie să vă încadrați (cu intenția să diferențieze soluțiile implementate cu fluxuri de cele implementate cu liste). Acest timp este o măsură a faptului că implementările voastre sunt în conformitate cu cerințele, aspect care va fi verificat și "manual" în cadrul prezentării.
+
+- Pe vmchecker veți încărca o arhivă .zip conținând fișierele suffix-tree-stream.rkt, collection.rkt și etapa4.rkt.
